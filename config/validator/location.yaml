@@ -1,0 +1,5 @@
+App\Entity\Location:
+  properties:
+    city:
+      - NotBlank:
+          groups: ['create']

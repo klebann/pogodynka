@@ -1,0 +1,6 @@
+App\Entity\Measurement:
+  properties:
+    celsius:
+      - GreaterThanOrEqual:
+          value: -273.15
+          message: "Zero kelvin (−273.15 °C) is defined as absolute zero."
