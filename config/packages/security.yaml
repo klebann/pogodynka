@@ -4,7 +4,14 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        users_in_memory:
+            memory:
+                users:
+                    admin:
+                        password: '$2y$13$YdDtY6r3VFJiyEp3V5EgleXVJendwsA3M7.t/O2GsqBihJTaDUtM.'
+                        roles:
+                            - 'ROLE_ADMIN'
+                            - 'ROLE_USER'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -12,6 +19,8 @@ security:
         main:
             lazy: true
             provider: users_in_memory
+            http_basic:
+                realm: 'My Secured Area'
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
