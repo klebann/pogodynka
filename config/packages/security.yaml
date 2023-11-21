@@ -35,6 +35,21 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
+    role_hierarchy:
+        ROLE_ADMIN:
+            - ROLE_USER
+            - ROLE_LOCATION_NEW
+            - ROLE_LOCATION_EDIT
+            - ROLE_LOCATION_DELETE
+            - ROLE_MEASUREMENT_NEW
+            - ROLE_MEASUREMENT_EDIT
+            - ROLE_MEASUREMENT_DELETE
+        ROLE_USER:
+            - ROLE_LOCATION_INDEX
+            - ROLE_LOCATION_SHOW
+            - ROLE_MEASUREMENT_INDEX
+            - ROLE_MEASUREMENT_SHOW
+
 when@test:
     security:
         password_hashers:
