@@ -12,15 +12,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'weather:location',
-    description: 'Command showing weather for location.',
+    name: 'weather:city',
+    description: 'Command for showing weather by city name',
 )]
-class WeatherLocationCommand extends Command
+class WeatherCityCommand extends Command
 {
     public function __construct(
-        private LocationRepository $locationRepository,
-        private WeatherUtil        $weatherUtil,
-        string                     $name = null,
+        private readonly LocationRepository $locationRepository,
+        private readonly WeatherUtil $weatherUtil,
+        string $name = null,
     )
     {
         parent::__construct($name);
@@ -29,14 +29,21 @@ class WeatherLocationCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('id', InputArgument::REQUIRED, 'Location ID');
+            ->addArgument('country_code', InputArgument::REQUIRED, 'Country code [eg. PL]')
+            ->addArgument('city_name', InputArgument::REQUIRED, 'City name [eg. Szczecin]')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $locationId = $input->getArgument('id');
-        $location = $this->locationRepository->find($locationId);
+        $countryCode = $input->getArgument('country_code');
+        $cityName = $input->getArgument('city_name');
+
+        $location = $this->locationRepository->findOneBy([
+            'country' => $countryCode,
+            'city' => $cityName,
+        ]);
 
         $measurements = $this->weatherUtil->getWeatherForLocation($location);
         $io->writeln(sprintf('Location: %s', $location->getCity()));
