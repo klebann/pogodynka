@@ -68,6 +68,11 @@ class Measurement
         return $this;
     }
 
+    public function getFahrenheit(): ?string
+    {
+        return strval(floatval($this->celsius) * 9/5 + 32);
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
